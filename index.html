@@ -731,6 +731,38 @@ input.error { border-color: #e76f51 !important; }
     <div class="success-icon">✓</div>
     <h2>Prijava potrjena!</h2>
     <p id="successMsg">Hvala! Veselimo se vas na pikniku 12. 9. 2026 v Gostišču Iršič.</p>
+
+    <div style="margin: 1.5rem 0; background: rgba(91,184,245,0.08); border: 1px solid rgba(91,184,245,0.25); border-radius: 14px; padding: 1.5rem; text-align: left;">
+      <div style="font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #5bb8f5; margin-bottom: 1rem;">Podatki za plačilo</div>
+      <div id="successZnesek" style="font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 1.25rem;">40 €</div>
+      <div style="display: grid; gap: 8px; font-size: 13px;">
+        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px;">
+          <span style="color: rgba(255,255,255,0.45);">Prejemnik</span>
+          <span style="color: rgba(255,255,255,0.9); font-weight: 500;">Bigu akademija d.o.o.<br>Partizanska cesta 6, 2000 Maribor</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px;">
+          <span style="color: rgba(255,255,255,0.45);">Banka</span>
+          <span style="color: rgba(255,255,255,0.9); font-weight: 500;">Nova KBM d.d.</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px;">
+          <span style="color: rgba(255,255,255,0.45);">IBAN</span>
+          <span style="font-family: monospace; font-size: 14px; background: rgba(255,255,255,0.06); padding: 6px 10px; border-radius: 6px; letter-spacing: 1px; color: #5bb8f5; cursor: pointer;" onclick="navigator.clipboard.writeText('SI56045150002022570'); this.textContent='✓ Kopirano!'; setTimeout(()=>this.textContent='SI56 0451 5000 2022 570',1500);">SI56 0451 5000 2022 570</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px;">
+          <span style="color: rgba(255,255,255,0.45);">SWIFT/BIC</span>
+          <span style="color: rgba(255,255,255,0.9); font-weight: 500;">KBMASI2X</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px;">
+          <span style="color: rgba(255,255,255,0.45);">Sklic</span>
+          <span style="color: rgba(255,255,255,0.9); font-weight: 500;">00 2026-09-12</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px;">
+          <span style="color: rgba(255,255,255,0.45);">Namen</span>
+          <span style="color: rgba(255,255,255,0.9); font-weight: 500;">PIKNIK 2026</span>
+        </div>
+      </div>
+    </div>
+
     <button class="btn-new" onclick="newEntry()">+ Dodaj še udeleženca</button>
   </div>
 
@@ -903,7 +935,8 @@ Veselimo se vas 12. 9. 2026 v Gostistu Irsic, Zabljek 32, Laporje!`;
     prijavljeni.push(entry);
     localStorage.setItem('piknik2026', JSON.stringify(prijavljeni));
 
-    document.getElementById('successMsg').textContent = `Hvala, ${ime} ${priimek}! Vasa prijava je bila uspesno poslana. Veselimo se vas 12. 9. 2026!`;
+    document.getElementById('successMsg').textContent = `Hvala, ${ime} ${priimek}! Vaša prijava je bila uspešno poslana. Veselimo se vas 12. 9. 2026!`;
+    document.getElementById('successZnesek').textContent = total + ' €';
     document.getElementById('mainForm').style.display = 'none';
     document.getElementById('successBox').classList.add('visible');
     renderList();
