@@ -857,18 +857,31 @@ function handleSubmit() {
   }
 
   const total = 40 + (odrasliCount * 40);
+  const cas = new Date().toLocaleString('sl-SI');
+  const partnerText = hasPartner ? ((partnerIme + ' ' + partnerPriimek).trim() || 'Da') : 'Ne';
+  const otrociText = otroci.length > 0 ? otroci.map((o,i) => `Otrok ${i+1}: ${o.ime||'—'} (${o.starost||'—'} let)`).join(', ') : 'Brez otrok';
 
-  const entry = {
-    id: Date.now(), ime, priimek, email, tel,
-    partner: hasPartner ? (partnerIme + ' ' + partnerPriimek).trim() : '',
-    otroci, odrasli: odrasliCount, total,
-    cas: new Date().toLocaleString('sl-SI')
-  };
+  const subject = encodeURIComponent('Nova prijava — Piknik 2026: ' + ime + ' ' + priimek);
+  const body = encodeURIComponent(
+    'NOVA PRIJAVA — DRUŽINSKI PIKNIK 2026\n' +
+    '=====================================\n\n' +
+    'Ime in priimek: ' + ime + ' ' + priimek + '\n' +
+    'E-mail: ' + email + '\n' +
+    'Telefon: ' + tel + '\n' +
+    'Partner/ica: ' + partnerText + '\n' +
+    'Otroci: ' + otrociText + '\n' +
+    'Dodatni odrasli gosti: ' + (odrasliCount > 0 ? odrasliCount + ' oseb(a)' : 'Brez') + '\n' +
+    'Znesek za plačilo: ' + total + ' €\n' +
+    'Čas prijave: ' + cas
+  );
 
+  window.location.href = 'mailto:Doris.StromajerKoren@smartmoneysolutions.si?subject=' + subject + '&body=' + body;
+
+  const entry = { id: Date.now(), ime, priimek, email, tel, partner: hasPartner ? partnerText : '', otroci, odrasli: odrasliCount, total, cas };
   prijavljeni.push(entry);
   localStorage.setItem('piknik2026', JSON.stringify(prijavljeni));
 
-  document.getElementById('successMsg').textContent = `Hvala, ${ime} ${priimek}! Veselimo se vas 12. 9. 2026 v Gostišču Iršič.`;
+  document.getElementById('successMsg').textContent = `Hvala, ${ime} ${priimek}! Odprl se vam bo email program — prosimo pošljite sporočilo za potrditev prijave.`;
   document.getElementById('mainForm').style.display = 'none';
   document.getElementById('successBox').classList.add('visible');
   renderList();
