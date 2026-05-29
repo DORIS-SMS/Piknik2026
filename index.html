@@ -861,10 +861,10 @@ function handleSubmit() {
   const partnerText = hasPartner ? ((partnerIme + ' ' + partnerPriimek).trim() || 'Da') : 'Ne';
   const otrociText = otroci.length > 0 ? otroci.map((o,i) => `Otrok ${i+1}: ${o.ime||'—'} (${o.starost||'—'} let)`).join(', ') : 'Brez otrok';
 
-  const subject = encodeURIComponent('Nova prijava — Piknik 2026: ' + ime + ' ' + priimek);
+  const subject = encodeURIComponent('Prijava — Piknik 2026: ' + ime + ' ' + priimek);
   const body = encodeURIComponent(
-    'NOVA PRIJAVA — DRUŽINSKI PIKNIK 2026\n' +
-    '=====================================\n\n' +
+    'PRIJAVA — DRUŽINSKI PIKNIK 2026\n' +
+    '=================================\n\n' +
     'Ime in priimek: ' + ime + ' ' + priimek + '\n' +
     'E-mail: ' + email + '\n' +
     'Telefon: ' + tel + '\n' +
@@ -872,10 +872,22 @@ function handleSubmit() {
     'Otroci: ' + otrociText + '\n' +
     'Dodatni odrasli gosti: ' + (odrasliCount > 0 ? odrasliCount + ' oseb(a)' : 'Brez') + '\n' +
     'Znesek za plačilo: ' + total + ' €\n' +
-    'Čas prijave: ' + cas
+    'Čas prijave: ' + cas + '\n\n' +
+    '─────────────────────────────────\n' +
+    'PODATKI ZA PLAČILO\n' +
+    '─────────────────────────────────\n' +
+    'Znesek: ' + total + ' €\n' +
+    'Prejemnik: Bigu akademija d.o.o., Partizanska cesta 6, 2000 Maribor\n' +
+    'Banka: Nova KBM d.d., Ulica Vita Kraigherja 4, 2000 Maribor\n' +
+    'IBAN: SI56 0451 5000 2022 570\n' +
+    'SWIFT/BIC: KBMASI2X\n' +
+    'Sklic: 00 2026-09-12\n' +
+    'Namen plačila: PIKNIK 2026\n\n' +
+    'Prosimo, da plačilo izvedete čim prej.\n' +
+    'Veselimo se vas 12. 9. 2026 v Gostišču Iršič, Žabljek 32, Laporje!'
   );
 
-  window.location.href = 'mailto:Doris.StromajerKoren@smartmoneysolutions.si?subject=' + subject + '&body=' + body;
+  window.location.href = 'mailto:Doris.StromajerKoren@smartmoneysolutions.si?cc=' + encodeURIComponent(email) + '&subject=' + subject + '&body=' + body;
 
   const entry = { id: Date.now(), ime, priimek, email, tel, partner: hasPartner ? partnerText : '', otroci, odrasli: odrasliCount, total, cas };
   prijavljeni.push(entry);
