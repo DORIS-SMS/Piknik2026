@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prijava — Družinski piknik 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0d1f2d;
+  color: #e8f0f7;
+  min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #0d1f2d 0%, #1a3a5c 50%, #0f2a40 100%);
+  padding: 3rem 2rem;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=60') center/cover no-repeat;
+  opacity: 0.18;
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.hero-left h1 {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+}
+
+.hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+}
+
+.hero-meta-row svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.hero-meta-row strong { color: #fff; }
+
+.hero-price {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 100px;
+  padding: 8px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+.hero-right {
+  background: rgba(10, 28, 44, 0.75);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 1.75rem;
+  backdrop-filter: blur(8px);
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.82);
+}
+
+.hero-right p + p { margin-top: 0.9rem; }
+
+/* FORM SECTION */
+.form-section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.form-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 2rem 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.card-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #5bb8f5;
+  margin-bottom: 1.25rem;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+.field:last-child { margin-bottom: 0; }
+
+label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.3px;
+}
+
+input[type=text], input[type=email], input[type=tel], input[type=number] {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #fff;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input::placeholder { color: rgba(255,255,255,0.25); }
+
+input:focus {
+  border-color: #5bb8f5;
+  box-shadow: 0 0 0 3px rgba(91,184,245,0.12);
+}
+
+input.error { border-color: #e76f51 !important; }
+
+/* Toggle switch */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.toggle-label { font-size: 14px; color: rgba(255,255,255,0.85); }
+.toggle-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle input { opacity: 0; width: 0; height: 0; }
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.toggle input:checked + .toggle-slider { background: #5bb8f5; }
+.toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+/* Children section */
+.children-section { display: none; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.children-section.visible { display: block; }
+
+.children-count-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.children-count-row label { font-size: 13px; color: rgba(255,255,255,0.6); min-width: 120px; }
+
+.counter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cnt-btn {
+  background: none;
+  border: none;
+  width: 38px;
+  height: 38px;
+  color: #5bb8f5;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cnt-btn:hover { background: rgba(91,184,245,0.1); }
+.cnt-btn:disabled { color: rgba(255,255,255,0.2); cursor: default; }
+
+.cnt-val {
+  min-width: 32px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.child-entries { display: flex; flex-direction: column; gap: 8px; }
+
+.child-entry {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: end;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  animation: slideIn 0.25s ease;
+}
+
+.child-entry .child-num {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(91,184,245,0.7);
+  margin-bottom: 4px;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Submit */
+.btn-submit {
+  width: 100%;
+  background: #1a6fad;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+.btn-submit:hover { background: #1580c7; }
+.btn-submit:active { transform: scale(0.99); }
+
+/* Payment box */
+.payment-box {
+  display: none;
+  background: rgba(91,184,245,0.07);
+  border: 1px solid rgba(91,184,245,0.25);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-top: 1.25rem;
+}
+
+.payment-box.visible { display: block; }
+
+.payment-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #5bb8f5;
+  margin-bottom: 1.25rem;
+}
+
+.payment-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+.payment-amount span {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  margin-left: 8px;
+}
+
+.payment-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.payment-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.payment-key { color: rgba(255,255,255,0.45); }
+.payment-val { color: rgba(255,255,255,0.9); font-weight: 500; word-break: break-all; }
+
+.payment-iban {
+  font-family: monospace;
+  font-size: 14px;
+  background: rgba(255,255,255,0.06);
+  padding: 8px 12px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  color: #5bb8f5;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: inline-block;
+  margin-top: 2px;
+}
+.payment-iban:hover { background: rgba(91,184,245,0.15); }
+
+.payment-note {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  line-height: 1.6;
+}
+
+/* Success */
+.success-box {
+  display: none;
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.success-box.visible { display: block; }
+
+.success-icon {
+  width: 72px;
+  height: 72px;
+  background: rgba(91,245,180,0.12);
+  border: 1px solid rgba(91,245,180,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 32px;
+}
+
+.success-box h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.success-box p {
+  color: rgba(255,255,255,0.55);
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 360px;
+  margin: 0 auto 1.5rem;
+}
+
+.btn-new {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  border-radius: 10px;
+  padding: 10px 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-new:hover { background: rgba(255,255,255,0.06); }
+
+/* Registered list */
+.reg-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-top: 1.5rem;
+}
+
+.reg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.reg-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.reg-count {
+  background: #1a6fad;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+.reg-empty {
+  color: rgba(255,255,255,0.25);
+  font-size: 13px;
+  text-align: center;
+  padding: 1.5rem 0;
+  font-style: italic;
+}
+
+.reg-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  animation: slideIn 0.25s ease;
+}
+
+.reg-name { font-size: 14px; font-weight: 500; color: #fff; }
+.reg-meta { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+
+.reg-right { display: flex; align-items: center; gap: 10px; }
+
+.reg-amount {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5bb8f5;
+}
+
+.btn-del {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.2);
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.2s;
+  padding: 2px 4px;
+}
+.btn-del:hover { color: #e76f51; }
+
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.stat-box { text-align: center; }
+.stat-num { font-size: 1.4rem; font-weight: 700; color: #5bb8f5; line-height: 1; }
+.stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+.btn-csv {
+  width: 100%;
+  margin-top: 1rem;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.5);
+  border-radius: 8px;
+  padding: 9px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-csv:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.7); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .field-row { grid-template-columns: 1fr; }
+  .payment-row { grid-template-columns: 1fr; gap: 2px; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .child-entry { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <h1>Družinski piknik 2026</h1>
+      <div class="hero-meta">
+        <div class="hero-meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Datum: <strong>12. 09. 2026</strong> · Začetek: <strong>11:00</strong></span>
+        </div>
+        <div class="hero-meta-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span><strong>Gostišče Iršič</strong> · Žabljek 32, 2318 Laporje</span>
+        </div>
+      </div>
+      <div class="hero-price">40,00 EUR / oseba</div>
+    </div>
+    <div class="hero-right">
+      <p>Dragi sodelavci, dragi naši družinski člani! Zdaj je pravi trenutek, da si že danes zapišete datum, ki ga enostavno ne smete zamuditi!</p>
+      <p>Po poletju, polnem dopustov, sonca in novih zgodb, se bomo ponovno zbrali – nasmejani, polni energije in pripravljeni, da skupaj ustvarimo še en nepozaben Smart Money piknik!</p>
+      <p>Piknik bo v Laporjah, v gostišču Iršič. Pričnemo ob 11. uri. Za udeležbo na pikniku vsak zastopnik plača akontacijo v višini 40€. Za vaše partnerje in otroke je udeležba <strong>brezplačna</strong> (saj vemo, smo družini prijazno podjetje).</p>
+      <p>Za vse ostale odrasle osebe, ki jih boste pripeljali, se udeležba na pikniku plača 40€ po osebi.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-section">
+  <div id="mainForm">
+    <p class="section-title">Prijava na piknik</p>
+
+    <!-- Osebni podatki -->
+    <div class="form-card">
+      <div class="card-label">Vaši podatki</div>
+      <div class="field-row">
+        <div class="field">
+          <label for="ime">Ime *</label>
+          <input type="text" id="ime" placeholder="Ime" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="priimek">Priimek *</label>
+          <input type="text" id="priimek" placeholder="Priimek" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="email">E-mail *</label>
+          <input type="email" id="email" placeholder="ime@email.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="tel">Telefon *</label>
+          <input type="tel" id="tel" placeholder="+386 xx xxx xxx" autocomplete="tel">
+        </div>
+      </div>
+    </div>
+
+    <!-- Partner -->
+    <div class="form-card">
+      <div class="card-label">Partner / Partnerica</div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Prijavim partnerja/partnerico</div>
+          <div class="toggle-sub">Brezplačna udeležba</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="togglePartner" onchange="togglePartner(this)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="partnerFields" style="display:none; margin-top:1.25rem; padding-top:1.25rem; border-top:1px solid rgba(255,255,255,0.08);">
+        <div class="field-row">
+          <div class="field">
+            <label for="partnerIme">Ime partnerja/ice</label>
+            <input type="text" id="partnerIme" placeholder="Ime">
+          </div>
+          <div class="field">
+            <label for="partnerPriimek">Priimek partnerja/ice</label>
+            <input type="text" id="partnerPriimek" placeholder="Priimek">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Otroci -->
+    <div class="form-card">
+      <div class="card-label">Otroci</div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Prijavim otroke</div>
+          <div class="toggle-sub">Brezplačna udeležba za vse otroke</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleOtroci" onchange="toggleOtroci(this)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="children-section" id="childrenSection">
+        <div class="children-count-row">
+          <label>Število otrok:</label>
+          <div class="counter-wrap">
+            <button class="cnt-btn" id="btnCntMinus" onclick="changeChildCount(-1)" disabled>−</button>
+            <span class="cnt-val" id="cntVal">0</span>
+            <button class="cnt-btn" onclick="changeChildCount(1)">+</button>
+          </div>
+        </div>
+        <div class="child-entries" id="childEntries"></div>
+      </div>
+    </div>
+
+    <!-- Dodatni odrasli -->
+    <div class="form-card">
+      <div class="card-label">Dodatni odrasli gosti</div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Privedel/a bom še odrasle goste</div>
+          <div class="toggle-sub">40€ / oseba</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleOdrasli" onchange="toggleOdrasli(this)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="odrasliFields" style="display:none; margin-top:1.25rem; padding-top:1.25rem; border-top:1px solid rgba(255,255,255,0.08);">
+        <div class="children-count-row">
+          <label>Število gostov:</label>
+          <div class="counter-wrap">
+            <button class="cnt-btn" id="btnOdrasliMinus" onclick="changeOdrasliCount(-1)" disabled>−</button>
+            <span class="cnt-val" id="odrasliVal">0</span>
+            <button class="cnt-btn" onclick="changeOdrasliCount(1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="handleSubmit()">Potrdi prijavo →</button>
+
+    <!-- Payment box -->
+    <div class="payment-box" id="paymentBox">
+      <div class="payment-title">Podatki za plačilo</div>
+      <div class="payment-amount" id="payAmount">40,00 €<span>akontacija</span></div>
+      <div class="payment-grid">
+        <div class="payment-row">
+          <span class="payment-key">Prejemnik</span>
+          <span class="payment-val">Bigu akademija d.o.o.<br>Partizanska cesta 6, 2000 Maribor</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-key">Banka</span>
+          <span class="payment-val">Nova KBM d.d.<br>Ulica Vita Kraigherja 4, 2000 Maribor</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-key">IBAN</span>
+          <span class="payment-val">
+            <span class="payment-iban" onclick="copyIBAN()" title="Klikni za kopiranje">SI56 0451 5000 2022 570</span>
+          </span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-key">SWIFT/BIC</span>
+          <span class="payment-val">KBMASI2X</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-key">Sklic</span>
+          <span class="payment-val">00 2026-09-12</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-key">Namen</span>
+          <span class="payment-val">PIKNIK 2026</span>
+        </div>
+      </div>
+      <div class="payment-note" id="payNote">
+        Znesek: 40€ (vaša akontacija). Partnerji in otroci so brezplačni.
+      </div>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div class="success-box" id="successBox">
+    <div class="success-icon">✓</div>
+    <h2>Prijava potrjena!</h2>
+    <p id="successMsg">Hvala! Veselimo se vas na pikniku 12. 9. 2026 v Gostišču Iršič.</p>
+    <button class="btn-new" onclick="newEntry()">+ Dodaj še udeleženca</button>
+  </div>
+
+  <!-- Registered list -->
+  <div class="reg-card">
+    <div class="reg-header">
+      <span class="reg-title">Prijavljeni</span>
+      <span class="reg-count" id="regCount">0</span>
+    </div>
+    <div id="regBody"><p class="reg-empty">Še ni prijavljenih.</p></div>
+    <div class="stats-bar" id="statsBar" style="display:none;">
+      <div class="stat-box"><div class="stat-num" id="sZastopniki">0</div><div class="stat-lbl">Zastopniki</div></div>
+      <div class="stat-box"><div class="stat-num" id="sPartnerji">0</div><div class="stat-lbl">Partnerji</div></div>
+      <div class="stat-box"><div class="stat-num" id="sOtroci">0</div><div class="stat-lbl">Otroci</div></div>
+      <div class="stat-box"><div class="stat-num" id="sZnesek">0€</div><div class="stat-lbl">Skupaj €</div></div>
+    </div>
+    <button class="btn-csv" id="btnCsv" style="display:none;" onclick="exportCSV()">⬇ Izvozi seznam (CSV)</button>
+  </div>
+</div>
+
+<script>
+let childCount = 0;
+let odrasliCount = 0;
+let prijavljeni = JSON.parse(localStorage.getItem('piknik2026') || '[]');
+
+function togglePartner(cb) {
+  document.getElementById('partnerFields').style.display = cb.checked ? 'block' : 'none';
+  updatePayment();
+}
+
+function toggleOtroci(cb) {
+  const s = document.getElementById('childrenSection');
+  if (cb.checked) { s.classList.add('visible'); }
+  else { s.classList.remove('visible'); childCount = 0; document.getElementById('cntVal').textContent = '0'; document.getElementById('btnCntMinus').disabled = true; document.getElementById('childEntries').innerHTML = ''; }
+  updatePayment();
+}
+
+function toggleOdrasli(cb) {
+  document.getElementById('odrasliFields').style.display = cb.checked ? 'block' : 'none';
+  if (!cb.checked) { odrasliCount = 0; document.getElementById('odrasliVal').textContent = '0'; document.getElementById('btnOdrasliMinus').disabled = true; }
+  updatePayment();
+}
+
+function changeChildCount(d) {
+  childCount = Math.max(0, Math.min(10, childCount + d));
+  document.getElementById('cntVal').textContent = childCount;
+  document.getElementById('btnCntMinus').disabled = childCount === 0;
+  renderChildEntries();
+  updatePayment();
+}
+
+function changeOdrasliCount(d) {
+  odrasliCount = Math.max(0, odrasliCount + d);
+  document.getElementById('odrasliVal').textContent = odrasliCount;
+  document.getElementById('btnOdrasliMinus').disabled = odrasliCount === 0;
+  updatePayment();
+}
+
+function renderChildEntries() {
+  const container = document.getElementById('childEntries');
+  const existing = container.children.length;
+  if (childCount > existing) {
+    for (let i = existing + 1; i <= childCount; i++) {
+      const div = document.createElement('div');
+      div.className = 'child-entry';
+      div.innerHTML = `
+        <div class="child-num">Otrok ${i}</div>
+        <div class="field" style="margin:0">
+          <label>Ime otroka</label>
+          <input type="text" placeholder="Ime" id="childName${i}">
+        </div>
+        <div class="field" style="margin:0">
+          <label>Starost (leta)</label>
+          <input type="number" min="0" max="18" placeholder="npr. 7" id="childAge${i}">
+        </div>`;
+      container.appendChild(div);
+    }
+  } else {
+    while (container.children.length > childCount) container.removeChild(container.lastChild);
+  }
+}
+
+function updatePayment() {
+  const total = 40 + (odrasliCount * 40);
+  const pb = document.getElementById('paymentBox');
+  document.getElementById('payAmount').innerHTML = `${total},00 €<span>skupaj za plačilo</span>`;
+  let note = `Vaša akontacija: 40€`;
+  if (odrasliCount > 0) note += ` + ${odrasliCount} × 40€ (dodatni gostje) = <strong>${total}€</strong>`;
+  const hasPartner = document.getElementById('togglePartner').checked;
+  if (hasPartner) note += `. Partner/ica: brezplačno.`;
+  if (childCount > 0) note += ` Otroci (${childCount}): brezplačno.`;
+  document.getElementById('payNote').innerHTML = note;
+  if (total > 0) pb.classList.add('visible');
+}
+
+function copyIBAN() {
+  navigator.clipboard.writeText('SI56045150002022570').then(() => {
+    const el = document.querySelector('.payment-iban');
+    const orig = el.textContent;
+    el.textContent = '✓ Kopirano!';
+    setTimeout(() => el.textContent = orig, 1500);
+  });
+}
+
+function handleSubmit() {
+  const ime = document.getElementById('ime').value.trim();
+  const priimek = document.getElementById('priimek').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const tel = document.getElementById('tel').value.trim();
+
+  let valid = true;
+  [['ime', ime], ['priimek', priimek], ['email', email], ['tel', tel]].forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (!val) { el.classList.add('error'); valid = false; setTimeout(() => el.classList.remove('error'), 2000); }
+  });
+  if (!valid) return;
+
+  const hasPartner = document.getElementById('togglePartner').checked;
+  const partnerIme = document.getElementById('partnerIme').value.trim();
+  const partnerPriimek = document.getElementById('partnerPriimek').value.trim();
+
+  const otroci = [];
+  for (let i = 1; i <= childCount; i++) {
+    otroci.push({ ime: document.getElementById('childName' + i)?.value.trim() || '', starost: document.getElementById('childAge' + i)?.value || '' });
+  }
+
+  const total = 40 + (odrasliCount * 40);
+
+  const entry = {
+    id: Date.now(), ime, priimek, email, tel,
+    partner: hasPartner ? (partnerIme + ' ' + partnerPriimek).trim() : '',
+    otroci, odrasli: odrasliCount, total,
+    cas: new Date().toLocaleString('sl-SI')
+  };
+
+  prijavljeni.push(entry);
+  localStorage.setItem('piknik2026', JSON.stringify(prijavljeni));
+
+  document.getElementById('successMsg').textContent = `Hvala, ${ime} ${priimek}! Veselimo se vas 12. 9. 2026 v Gostišču Iršič.`;
+  document.getElementById('mainForm').style.display = 'none';
+  document.getElementById('successBox').classList.add('visible');
+  renderList();
+}
+
+function newEntry() {
+  document.getElementById('mainForm').style.display = 'block';
+  document.getElementById('successBox').classList.remove('visible');
+  ['ime','priimek','email','tel','partnerIme','partnerPriimek'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  document.getElementById('togglePartner').checked = false;
+  document.getElementById('partnerFields').style.display = 'none';
+  document.getElementById('toggleOtroci').checked = false;
+  document.getElementById('childrenSection').classList.remove('visible');
+  document.getElementById('childEntries').innerHTML = '';
+  childCount = 0;
+  document.getElementById('cntVal').textContent = '0';
+  document.getElementById('btnCntMinus').disabled = true;
+  document.getElementById('toggleOdrasli').checked = false;
+  document.getElementById('odrasliFields').style.display = 'none';
+  odrasliCount = 0;
+  document.getElementById('odrasliVal').textContent = '0';
+  document.getElementById('btnOdrasliMinus').disabled = true;
+  document.getElementById('paymentBox').classList.remove('visible');
+  document.getElementById('ime').focus();
+}
+
+function renderList() {
+  const body = document.getElementById('regBody');
+  const count = document.getElementById('regCount');
+  const statsBar = document.getElementById('statsBar');
+  const btnCsv = document.getElementById('btnCsv');
+  count.textContent = prijavljeni.length;
+  if (!prijavljeni.length) { body.innerHTML = '<p class="reg-empty">Še ni prijavljenih.</p>'; statsBar.style.display = 'none'; btnCsv.style.display = 'none'; return; }
+
+  body.innerHTML = prijavljeni.map(e => `
+    <div class="reg-item">
+      <div>
+        <div class="reg-name">${e.ime} ${e.priimek}</div>
+        <div class="reg-meta">${e.email} · ${e.tel}${e.partner ? ' · Partner: ' + e.partner : ''}${e.otroci?.length ? ' · Otroci: ' + e.otroci.length : ''}${e.odrasli > 0 ? ' · +' + e.odrasli + ' gost(je)' : ''}</div>
+      </div>
+      <div class="reg-right">
+        <span class="reg-amount">${e.total}€</span>
+        <button class="btn-del" onclick="delEntry(${e.id})">×</button>
+      </div>
+    </div>`).join('');
+
+  const totZ = prijavljeni.length;
+  const totP = prijavljeni.filter(e => e.partner).length;
+  const totO = prijavljeni.reduce((s, e) => s + (e.otroci?.length || 0), 0);
+  const totEur = prijavljeni.reduce((s, e) => s + e.total, 0);
+
+  document.getElementById('sZastopniki').textContent = totZ;
+  document.getElementById('sPartnerji').textContent = totP;
+  document.getElementById('sOtroci').textContent = totO;
+  document.getElementById('sZnesek').textContent = totEur + '€';
+  statsBar.style.display = 'grid';
+  btnCsv.style.display = 'block';
+}
+
+function delEntry(id) {
+  prijavljeni = prijavljeni.filter(e => e.id !== id);
+  localStorage.setItem('piknik2026', JSON.stringify(prijavljeni));
+  renderList();
+}
+
+function exportCSV() {
+  const hdr = 'Ime,Priimek,E-mail,Telefon,Partner,Otroci,Dodatni odrasli,Znesek,Čas\n';
+  const rows = prijavljeni.map(e => [
+    e.ime, e.priimek, e.email, e.tel,
+    e.partner || '',
+    (e.otroci||[]).map(o => o.ime + '(' + o.starost + 'l)').join('; '),
+    e.odrasli,
+    e.total + '€',
+    '"' + e.cas + '"'
+  ].join(',')).join('\n');
+  const blob = new Blob(['\uFEFF' + hdr + rows], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'piknik2026_prijave.csv'; a.click();
+}
+
+updatePayment();
+renderList();
+</script>
+</body>
+</html>
