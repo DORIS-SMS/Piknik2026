@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prijava — Družinski piknik 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -834,7 +835,7 @@ function copyIBAN() {
   });
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   const ime = document.getElementById('ime').value.trim();
   const priimek = document.getElementById('priimek').value.trim();
   const email = document.getElementById('email').value.trim();
@@ -861,56 +862,57 @@ function handleSubmit() {
   const partnerText = hasPartner ? ((partnerIme + ' ' + partnerPriimek).trim() || 'Da') : 'Ne';
   const otrociText = otroci.length > 0 ? otroci.map((o,i) => `Otrok ${i+1}: ${o.ime||'—'} (${o.starost||'—'} let)`).join(', ') : 'Brez otrok';
 
-  const subject = encodeURIComponent('Prijava Piknik 2026: ' + ime + ' ' + priimek);
+  const message = `PRIJAVA - DRUZINSKI PIKNIK 2026
 
-  const placilo = [
-    'PODATKI ZA PLACILO',
-    'Znesek: ' + total + ' EUR',
-    'Prejemnik: Bigu akademija d.o.o., Partizanska cesta 6, 2000 Maribor',
-    'Banka: Nova KBM d.d.',
-    'IBAN: SI56 0451 5000 2022 570',
-    'SWIFT: KBMASI2X',
-    'Sklic: 00 2026-09-12',
-    'Namen: PIKNIK 2026'
-  ].join('%0A');
+Ime in priimek: ${ime} ${priimek}
+E-mail: ${email}
+Telefon: ${tel}
+Partner/ica: ${partnerText}
+Otroci: ${otrociText}
+Dodatni odrasli gosti: ${odrasliCount > 0 ? odrasliCount + ' oseb(a)' : 'Brez'}
+Znesek za placilo: ${total} EUR
+Cas prijave: ${cas}
 
-  const prijava = [
-    'PRIJAVA - DRUZINSKI PIKNIK 2026',
-    '',
-    'Ime in priimek: ' + ime + ' ' + priimek,
-    'E-mail: ' + email,
-    'Telefon: ' + tel,
-    'Partner: ' + partnerText,
-    'Otroci: ' + otrociText,
-    'Dodatni odrasli: ' + (odrasliCount > 0 ? odrasliCount + ' oseb' : 'Brez'),
-    'Znesek: ' + total + ' EUR',
-    'Cas: ' + cas,
-    '',
-    '----------------------------',
-    'PODATKI ZA PLACILO',
-    '----------------------------',
-    'Znesek: ' + total + ' EUR',
-    'Prejemnik: Bigu akademija d.o.o.',
-    'Partizanska cesta 6, 2000 Maribor',
-    'Banka: Nova KBM d.d.',
-    'IBAN: SI56 0451 5000 2022 570',
-    'SWIFT: KBMASI2X',
-    'Sklic: 00 2026-09-12',
-    'Namen: PIKNIK 2026',
-    '',
-    'Veselimo se vas 12.9.2026 v Gostistu Irsic, Zabljek 32, Laporje!'
-  ].join('%0A');
+----------------------------
+PODATKI ZA PLACILO
+----------------------------
+Znesek: ${total} EUR
+Prejemnik: Bigu akademija d.o.o.
+Partizanska cesta 6, 2000 Maribor
+Banka: Nova KBM d.d.
+IBAN: SI56 0451 5000 2022 570
+SWIFT/BIC: KBMASI2X
+Sklic: 00 2026-09-12
+Namen placila: PIKNIK 2026
 
-  window.location.href = 'mailto:Doris.StromajerKoren@smartmoneysolutions.si?cc=' + encodeURIComponent(email) + '&subject=' + subject + '&body=' + prijava;
+Veselimo se vas 12. 9. 2026 v Gostistu Irsic, Zabljek 32, Laporje!`;
 
-  const entry = { id: Date.now(), ime, priimek, email, tel, partner: hasPartner ? partnerText : '', otroci, odrasli: odrasliCount, total, cas };
-  prijavljeni.push(entry);
-  localStorage.setItem('piknik2026', JSON.stringify(prijavljeni));
+  const btn = document.querySelector('.btn-submit');
+  const origText = btn.textContent;
+  btn.textContent = 'Posiljam...';
+  btn.disabled = true;
 
-  document.getElementById('successMsg').textContent = `Hvala, ${ime} ${priimek}! Odprl se vam bo email program — prosimo pošljite sporočilo za potrditev prijave.`;
-  document.getElementById('mainForm').style.display = 'none';
-  document.getElementById('successBox').classList.add('visible');
-  renderList();
+  try {
+    await emailjs.send('service_ravr2d', 'template_9dr1vwo', {
+      ime_priimek: ime + ' ' + priimek,
+      email: email,
+      message: message
+    }, 'Q5DZw0znce9xPsqfL');
+
+    const entry = { id: Date.now(), ime, priimek, email, tel, partner: hasPartner ? partnerText : '', otroci, odrasli: odrasliCount, total, cas };
+    prijavljeni.push(entry);
+    localStorage.setItem('piknik2026', JSON.stringify(prijavljeni));
+
+    document.getElementById('successMsg').textContent = `Hvala, ${ime} ${priimek}! Vasa prijava je bila uspesno poslana. Veselimo se vas 12. 9. 2026!`;
+    document.getElementById('mainForm').style.display = 'none';
+    document.getElementById('successBox').classList.add('visible');
+    renderList();
+  } catch(err) {
+    console.error('EmailJS error:', err);
+    btn.textContent = origText;
+    btn.disabled = false;
+    alert('Napaka pri posiljanju. Prosim poskusite znova ali kontaktirajte organizatorico.');
+  }
 }
 
 function newEntry() {
